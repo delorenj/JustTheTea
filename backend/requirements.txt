@@ -35,3 +35,5 @@ typing_extensions==4.12.2
 urllib3==2.2.2
 uvicorn==0.31.1
 yarl==1.11.1
+aiomysql==0.2.0
+sqlalchemy==2.0.36
