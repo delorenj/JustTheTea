@@ -35,6 +35,14 @@ services:
       - db
     networks:
       - justthetea-network
+    volumes:
+      - ./backend:/app
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8095", "--reload", "--log-level", "debug"]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
 
   ngrok:
     image: ngrok/ngrok:alpine

@@ -10,22 +10,27 @@ import { Coffee, Search } from 'lucide-react'
 import { getDashboardData, getUserPreference, updateUserPreference } from '@/lib/api'
 import { Button } from "@/components/ui/button"
 import { startIndexingAllRepos } from '@/lib/api'
+import { DashboardData } from '@/types/dashboard'
 
 const frequencyOptions = ['Daily', 'Weekly', 'Fortnightly', 'Monthly', 'Quarterly']
 
 export function Index() {
-  const [dashboardData, setDashboardData] = useState(null)
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null)
   const [userPreference, setUserPreference] = useState('')
   const [sliderValue, setSliderValue] = useState(50)
   const [isIndexing, setIsIndexing] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getDashboardData()
-      setDashboardData(data)
-      const pref = await getUserPreference()
-      setUserPreference(pref.tea_frequency)
-      setSliderValue(frequencyOptions.indexOf(pref.tea_frequency) * 25)
+      try {
+        const data = await getDashboardData()
+        setDashboardData(data)
+        const pref = await getUserPreference()
+        setUserPreference(pref.tea_frequency)
+        setSliderValue(frequencyOptions.indexOf(pref.tea_frequency) * 25)
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
     }
     fetchData()
   }, [])
